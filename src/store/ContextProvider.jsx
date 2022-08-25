@@ -2,6 +2,7 @@ import React from 'react'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 const Context= React.createContext()
+const urlLink= "https://server-dci.herokuapp.com/"
 export function ContextProvider(props) {
     const [message, setMessage] = useState("")
     const [username, setUsername] = useState()
@@ -14,7 +15,7 @@ export function ContextProvider(props) {
         console.log("any thing")
     
     let test= ()=>{ // get all products added_by the user that is logged in
-      axios.get("/product/all/"+userId).then(response=>setProducts(response.data))
+      axios.get(urlLink+"/product/all/"+userId).then(response=>setProducts(response.data))
     }
     if (message !== "") {
       test()
@@ -24,7 +25,7 @@ export function ContextProvider(props) {
         console.log(username, email, password)
         const data = {username, email, password} 
         axios
-        .post('/user/create', data) // .post(URL, dataToSend)
+        .post(urlLink+'/user/create', data) // .post(URL, dataToSend)
         .then(response=> {
           console.log(response.data)
           setMessage(response.data)
@@ -32,7 +33,7 @@ export function ContextProvider(props) {
       }
       const addProduct = ()=>{
         setMessage("") // in order to have a state update
-        axios.get('/product/add/'+userId)
+        axios.get(urlLink+'/product/add/'+userId)
         .then(response=>{
           console.log(response)
           // After we add a new product we update the message  state
@@ -42,7 +43,7 @@ export function ContextProvider(props) {
         })
       }
       const loginCheck = ()=>{
-        axios.post('/user/login', {email, password})
+        axios.post(urlLink+'/user/login', {email, password})
         .then(response => {
           console.log(response) 
           setMessage(response.data.message)
